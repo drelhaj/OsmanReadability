@@ -7,7 +7,7 @@ public class TestOSMAN {
 	public static void main(String[] args) throws InterruptedException, IOException{
 		
 		//create an instance of the OsmanReadability classs
-		OsmanReadability osman = new OsmanReadability();
+OsmanReadability osman = new OsmanReadability();
 		
 		//loading the Arabic dictionary - needed for tokenization and sentence splitting.
 		osman.loadData();
