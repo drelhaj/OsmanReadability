@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "mishkal-gui.py", line 4, in <module>
+    from gui.appgui import *
+  File "zipextimporter.pyo", line 82, in load_module
+  File "gui\appgui.pyo", line 15, in <module>
+  File "zipextimporter.pyo", line 82, in load_module
+  File "core\adaat.pyo", line 20, in <module>
+  File "zipextimporter.pyo", line 82, in load_module
+  File "tashkeel\tashkeel.pyo", line 24, in <module>
+ImportError: No module named named

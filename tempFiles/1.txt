@@ -1,0 +1,5 @@
+ السّلامُ عَلَيكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ
+cache checked word 5
+cache freqwords noun 6
+cache freqwords verb 0
+cache freqwords stopword 1
