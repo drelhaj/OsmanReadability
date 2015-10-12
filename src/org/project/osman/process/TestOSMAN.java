@@ -25,8 +25,8 @@ public class TestOSMAN {
 		String textAddedTashkeel = osman.addTashkeel(textNoTashkeel);
 		//String textAddedTashkeel = osman.addTashkeel(textNoTashkeel);
 		System.out.println(textAddedTashkeel);
-		double osmanScore2 = osman.calculateOsman(textAddedTashkeel);
-		System.out.println("Osman Score: " + osmanScore2);
+		double osmanScore3 = osman.calculateOsman(textAddedTashkeel);
+		System.out.println("Osman Score: " + osmanScore3);
 		
 		//text in unicode in case your editor does not support Arabic text
 		//text in Arabic: "ÇáÓøáÇãõ Úóáóíßõãú æóÑóÍúãóÉõ Çááåö æóÈóÑóßóÇÊõåõ"  [set encoding UTF-8 to view this]
