@@ -10,7 +10,6 @@ import java.util.Scanner;
 import org.apache.commons.lang.StringUtils;
 import edu.stanford.nlp.ling.HasWord;
 
-
 /**
  * 
  * @author Mahmoud El-Haj
@@ -31,7 +30,7 @@ public class OsmanReadability {
 		ArabicWordSegmenters.loadLangDictionaries();
 		
 		 // this is your print stream, store the reference 
-		// (this will hide system.err printed by Stanford Tekonizer)
+		// (this will hide system.err printed by Stanford Tekonizer
 	  	PrintStream err = System.err;
 
 	  	// now make all writes to the System.err stream silent 
@@ -48,8 +47,8 @@ public class OsmanReadability {
 // calculate OSMAN Arabic Readability
 public double calculateOsman(String text) {
 
-	return 140.835 - (1.015 * wordsPerSentence(text)) - (20.18143403 * (percentComplexWords(text)+syllablesPerWords(text)+faseehPerWords(text)+percentLongWords(text)));
-	
+	return 140.791 - (1.015 * wordsPerSentence(text)) - (20.18143403 * (percentComplexWords(text)+syllablesPerWords(text)+faseehPerWords(text)+percentLongWords(text)));
+
 }	
 
 
@@ -188,28 +187,47 @@ public double calculateOsman(String text) {
 		int s4 = StringUtils.countMatches(text, "\u064C");//tanween dam
 		int s5 = StringUtils.countMatches(text, "\u0650");//kasra
 		int s6 = StringUtils.countMatches(text, "\u064D");//tanween kasr
-		int s7 = StringUtils.countMatches(text, "\u0651");//shadda (this is doubled as it's a double sound)
+		int s7 = StringUtils.countMatches(text, "\u0651");//shadda
 				
-		int syllables = s1+s2+s3+s4+s5+s6+(s7*2);
+		int syllables = s1+s2+s3+s4+s5+s6+s7;
 		
 	return syllables;
 		
 }
 
-	//count number of faseeh indicators in a word
+	//count number of faseeh indicators in complex words
 	protected int countFaseeh(String text){
 		
-		int s8 = StringUtils.countMatches(text, "\u0626");//Æ hamza 3ala nabira
-		int s9 = StringUtils.countMatches(text, "\u0621");//Á hamza 3ala satr
-		int s10 = StringUtils.countMatches(text, "\u0624");//Ä hamza 3ala waw 
-		int s11 = StringUtils.countMatches(text, "\u0648\u0627 ");//æÇ waw wa alef
-		int s12 = StringUtils.countMatches(text, "\u0648\u0646 ");//æä waw wa noon (jam3 mothakar)
-		int s13 = StringUtils.countMatches(text, "\u0630");//Ð Thal (9th letter in Arabic alphabet)
-		int s14 = StringUtils.countMatches(text, "\u0638");//Ù  DHaA (17th letter in Arabic alphabet)
+		int faseeh = 0;
+		String[] words = text.split(" ");//we don't need an accurate word segmentation here as non-word object does not contain syllables.
 		
-		int faseeh = s8+s9+s10+s11+s12+s13+s14;
+		for(int i=0;i<words.length;i++){
+			int ss1 = StringUtils.countMatches(words[i], "\u064E");//fatHa
+			int ss2 = StringUtils.countMatches(words[i], "\u064B");//tanween fatH
+			int ss3 = StringUtils.countMatches(words[i], "\u064F");//dhamma
+			int ss4 = StringUtils.countMatches(words[i], "\u064C");//tanween dhamm
+			int ss5 = StringUtils.countMatches(words[i], "\u0650");//kasra
+			int ss6 = StringUtils.countMatches(words[i], "\u064D");//tanween kasr
+			int ss7 = StringUtils.countMatches(words[i], "\u0651");//shaddah
+			
+			if(ss1+ss2+ss3+ss4+ss5+ss6+ss7 > 7){
+	
+		int s8 = StringUtils.countMatches(words[i], "\u0626");//Æ hamza 3ala nabira
+		int s9 = StringUtils.countMatches(words[i], "\u0621");//Á hamza 3ala satr
+		int s10 = StringUtils.countMatches(words[i], "\u0624");//Ä hamza 3ala waw 
+		int s11 = StringUtils.countMatches(words[i], "\u0648\u0627 ");//æÇ waw wa alef
+		int s12 = StringUtils.countMatches(words[i], "\u0648\u0646 ");//æä waw wa noon (jam3 mothakar)
+		int s13 = StringUtils.countMatches(words[i], "\u0630");//Ð Thal (9th letter in Arabic alphabet)
+		int s14 = StringUtils.countMatches(words[i], "\u0638");//Ù  DHaA (17th letter in Arabic alphabet)
+		//if a complex word contains at least one faseeh indicator
+		if((s8+s9+s10+s11+s12+s13+s14)>=1)
+				faseeh++;
+	
+			}
+			
+			}
 		
-	return faseeh;
+		return faseeh;
 		
 }
 	
@@ -245,12 +263,11 @@ public double calculateOsman(String text) {
 		int ss6 = StringUtils.countMatches(words[i], "\u064D");//tanween kasr
 		int ss7 = StringUtils.countMatches(words[i], "\u0651");//shaddah (this is doubled as it's a double sound)
 		
-		if(ss1+ss2+ss3+ss4+ss5+ss6+(ss7*2) >= 7){
+		if(ss1+ss2+ss3+ss4+ss5+ss6+ss7 > 7){
 			complexWords++;
 		}
 		
 	}
-		
 		return complexWords;
 	}
 	
@@ -262,9 +279,9 @@ public double calculateOsman(String text) {
 	arabicList = ArabicWordSegmenters.runArabicSegmenter(text);
 	int longWords = 0;
 	for (HasWord element : arabicList) {
-		if(element.toString().length()>7)
+		if(element.toString().length()>9){
 			++longWords;
-		
+		}
 	}
 	return longWords;
 	}
@@ -283,16 +300,8 @@ public double calculateOsman(String text) {
 			writer.flush();
 			
 			String outputFile=tmpFiles+File.separator+(fileCounter++)+".txt";
-
 			Runtime.getRuntime().exec ("cmd /c mishkal-console -f "+inputFile+" > "+outputFile);
 			
-			
-			File outputFILE = new File(outputFile);
-			 while(!outputFILE.renameTo(outputFILE)) {
-			        // Cannot read from file, windows still working on it.
-			        Thread.sleep(10);
-			    }
-
 			@SuppressWarnings("resource")
 			String content = new Scanner(new File(outputFile)).useDelimiter("\\Z").next();
 			if(content.indexOf("cache checked word")>-1)
@@ -302,8 +311,7 @@ public double calculateOsman(String text) {
 			
 	return tashkeelUTF8;
 	}
-	
-	
+		
 	//count number of sentences using Stanford tokenizer (Sentence Splitter).
 	 public int countSentences(String text){
 
@@ -332,8 +340,9 @@ public double calculateOsman(String text) {
 		 //import edu.stanford.nlp.pipeline.Annotation;
 		 //import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 		 //import edu.stanford.nlp.util.CoreMap;
-	    String lines[] = text.split("\\r?\\n");
-	      
+	    		 
+		 String lines[] = text.split("\\r?\\n");
+	      			
 		return lines.length;
 
 }
