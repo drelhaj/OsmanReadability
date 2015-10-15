@@ -6,15 +6,16 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Scanner;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import edu.stanford.nlp.ling.HasWord;
 
 /**
- * 
+ * Entry class of the OSMAN Readability package for computing Readability Metrics for Arabic text.
+ *
  * @author Mahmoud El-Haj
  * dr.melhaj@gmail.com
- *
+ * @version 1.0
  */
 public class OsmanReadability {
 
@@ -44,16 +45,24 @@ public class OsmanReadability {
 	}
 
 	
-// calculate OSMAN Arabic Readability
-public double calculateOsman(String text) {
-
-	return 140.791 - (1.015 * wordsPerSentence(text)) - (20.18143403 * (percentComplexWords(text)+syllablesPerWords(text)+faseehPerWords(text)+percentLongWords(text)));
-
-}	
-
-
+	/**
+	 * Computes OSMAN readability metric for Arabic text (if text has no diacritics please use addTashkeel() before calling the method.
+	 * 
+	 * @param text
+	 * @return OSMAN Score in double
+	 */
+	public double calculateOsman(String text) {
 	
-	// calculate Arabic ARI Readability 
+	return 200.791 - (1.015 * wordsPerSentence(text)) - (24.18143403 * (percentComplexWords(text) +syllablesPerWords(text)+faseehPerWords(text) +percentLongWords(text)));
+	
+	}	
+
+  
+	/**
+	 * calculate Arabic ARI Readability
+	 * @param text
+	 * @return ARI Score double
+	 */
 	public double calculateArabicARI(String text) {
 		
 		return 4.71 *
@@ -65,28 +74,43 @@ public double calculateOsman(String text) {
 	}	
 	
 	
-	// calculate Arabic LIX Readability 
+	/**
+	 * calculate Arabic LIX Readability
+	 * @param text
+	 * @return LIX Score double
+	 */
 	public double calculateArabicLIX(String text) {
 		
 		return wordsPerSentence(text) + (countLongWords(text)*100.0) / countWords(text);
 		
 	}
 		
-	// calculate Arabic Fog Readability 
+	/**
+	 * calculate Arabic Fog Readability
+	 * @param text
+	 * @return Fog Score double
+	 */
 	public double calculateArabicFog(String text)
 	{
 		return (wordsPerSentence(text) + percentComplexWords(text)) * 0.4;
 	}
 
 
-	// calculate Arabic Flesch Ease Readability
+	/**
+	 * calculate Arabic Flesch Readability
+	 * @param text
+	 * @return Flesch Score double
+	 */
 	public double calculateArabicFlesch(String text)
 	{
 		return 206.835 - (1.015 * wordsPerSentence(text)) - (84.6 * syllablesPerWords(text));
 	}
 
-
-	// calculate Arabic Flesch Kincaid (grade) Readability 
+	/**
+	 * calculate Arabic Flesch Kincaid (grade) Readability 
+	 * @param text
+	 * @return Arabic Flesch Kincaid Score double
+	 */
 	public double calculateArabicKincaid(String text)
 	{
 		return ((0.39 * wordsPerSentence(text)) + (11.8 * syllablesPerWords(text))) - 15.59;
@@ -122,7 +146,7 @@ public double calculateOsman(String text) {
 	/**
 	 * Helper method computing 
 	 * <p>
-	 * ( NumberOfComplexWords / NumberOfWords ) * 100
+	 * ( NumberOfComplexWords / NumberOfWords )
 	 * 
 	 * @return percentage of complex words computed from the text statistics.
 	 */
@@ -135,7 +159,7 @@ public double calculateOsman(String text) {
 	/**
 	 * Helper method computing 
 	 * <p>
-	 * ( NumberOfLongWords / NumberOfWords ) * 100
+	 * ( NumberOfLongWords / NumberOfWords )
 	 * 
 	 * @return percentage of long words computed from the text statistics.
 	 */
@@ -162,9 +186,12 @@ public double calculateOsman(String text) {
 			}
 		}
 	
-	
-	
-	//removes diacritics from Arabic text
+
+	/**
+	 * removes diacritics from Arabic text
+	 * @param text
+	 * @return text without any diacritics
+	 */
 	protected String removeTashkeel(String text){
 		
 		String noTashkeel = text.replace("\u064E","")
@@ -177,41 +204,47 @@ public double calculateOsman(String text) {
 		return noTashkeel;
 	}
 	
-	
-	//count number of syllables in a word
+	/**
+	 * count number of syllables in a word
+	 * @param text
+	 * @return number of syllables as int
+	 */
 	protected int countSyllables(String text){
 	
-		int s1 = StringUtils.countMatches(text, "\u064E");//fatHa
-		int s2 = StringUtils.countMatches(text, "\u064B");//tanween fatH
-		int s3 = StringUtils.countMatches(text, "\u064F");//damma
-		int s4 = StringUtils.countMatches(text, "\u064C");//tanween dam
-		int s5 = StringUtils.countMatches(text, "\u0650");//kasra
-		int s6 = StringUtils.countMatches(text, "\u064D");//tanween kasr
-		int s7 = StringUtils.countMatches(text, "\u0651");//shadda
-				
-		int syllables = s1+s2+s3+s4+s5+s6+s7;
+	//class Syllables counts long, short and stress syllables. Long and stress syllables are treated as doubles thus X 2.
+	Syllables syllables = Syllables.countAllSyllables(text);
+	int longSyll = syllables.longSyllables;
+	int shortSyll = syllables.shortSyllables;
+	int stressSyll = syllables.stressSyllables;
+	int syllablesCount = (longSyll * 2) + shortSyll + (stressSyll * 2);
 		
-	return syllables;
+	return syllablesCount;
 		
 }
 
-	//count number of faseeh indicators in complex words
+	/**
+	 * count number of faseeh indicators in complex words
+	 * @param text
+	 * @return number of faseeh indicators as int
+	 */
 	protected int countFaseeh(String text){
 		
 		int faseeh = 0;
-		String[] words = text.split(" ");//we don't need an accurate word segmentation here as non-word object does not contain syllables.
+		//we don't need an accurate word segmentation here as non-word object does not contain syllables.
+		String[] words = text.split(" ");
 		
 		for(int i=0;i<words.length;i++){
-			int ss1 = StringUtils.countMatches(words[i], "\u064E");//fatHa
-			int ss2 = StringUtils.countMatches(words[i], "\u064B");//tanween fatH
-			int ss3 = StringUtils.countMatches(words[i], "\u064F");//dhamma
-			int ss4 = StringUtils.countMatches(words[i], "\u064C");//tanween dhamm
-			int ss5 = StringUtils.countMatches(words[i], "\u0650");//kasra
-			int ss6 = StringUtils.countMatches(words[i], "\u064D");//tanween kasr
-			int ss7 = StringUtils.countMatches(words[i], "\u0651");//shaddah
 			
-			if(ss1+ss2+ss3+ss4+ss5+ss6+ss7 > 7){
+			//class Syllables counts long, short and stress syllables. Long and stress syllables are treated as doubles thus X 2.
+			Syllables syllables = Syllables.countAllSyllables(words[i]);
+			int longSyll = syllables.longSyllables;
+			int shortSyll = syllables.shortSyllables;
+			int stressSyll = syllables.stressSyllables;
+			int syllablesCount = longSyll * 2 + shortSyll + stressSyll * 2;
+
 	
+			if(syllablesCount>4){
+			
 		int s8 = StringUtils.countMatches(words[i], "\u0626");//Æ hamza 3ala nabira
 		int s9 = StringUtils.countMatches(words[i], "\u0621");//Á hamza 3ala satr
 		int s10 = StringUtils.countMatches(words[i], "\u0624");//Ä hamza 3ala waw 
@@ -231,7 +264,11 @@ public double calculateOsman(String text) {
 		
 }
 	
-	//count number of characters in a word excluding digits and spaces
+	/**
+	 * count number of characters in a word excluding digits and spaces
+	 * @param text
+	 * @return number of characters as int
+	 */
 	protected int countChars(String text){	
 		text = removeTashkeel(text);
 		return text.replaceAll("\\d"," ").replace(" ","").trim().length();
@@ -239,7 +276,11 @@ public double calculateOsman(String text) {
 		}
 	
 	
-	//count number of words using Stanford Arabic word Segmenter.
+	/**
+	 * count number of words using Stanford Arabic word Segmenter.
+	 * @param text
+	 * @return number of words as int
+	 */
 	protected int countWords(String text){	
 	List<HasWord> arabicList;
 		arabicList = ArabicWordSegmenters.runArabicSegmenter(text);
@@ -249,7 +290,11 @@ public double calculateOsman(String text) {
 		
 	}
 
-	//count number of complex words in text, those are words with more than or equal to 7 syllables.
+	/**
+	 * count number of complex words in text, those are words with more than 4 syllables.
+	 * @param text
+	 * @return number of complex words as int
+	 */
 	protected int countComplexWords(String text){
 	int complexWords = 0;
 	String[] words = text.split(" ");//we don't need an accurate word segmentation here as non-word object does not contain syllables.
@@ -263,7 +308,7 @@ public double calculateOsman(String text) {
 		int ss6 = StringUtils.countMatches(words[i], "\u064D");//tanween kasr
 		int ss7 = StringUtils.countMatches(words[i], "\u0651");//shaddah (this is doubled as it's a double sound)
 		
-		if(ss1+ss2+ss3+ss4+ss5+ss6+ss7 > 7){
+		if(ss1+ss2+ss3+ss4+ss5+ss6+ss7 > 4){
 			complexWords++;
 		}
 		
@@ -272,47 +317,77 @@ public double calculateOsman(String text) {
 	}
 	
 
-	//count number of long words in text, those are words with more than 7 characters.
+	/**
+	 * count number of long words in text, those are words with more than 5 characters.
+	 * @param text
+	 * @return number of long words as int
+	 */
 	protected int countLongWords(String text){	
 	List<HasWord> arabicList = null;
 	text = removeTashkeel(text);
 	arabicList = ArabicWordSegmenters.runArabicSegmenter(text);
 	int longWords = 0;
 	for (HasWord element : arabicList) {
-		if(element.toString().length()>9){
+		if(element.toString().length()>5){
 			++longWords;
 		}
 	}
 	return longWords;
 	}
 		
-
-	//add diacritics (Tashkeel) to Arabic text.
+	
+	
+	/**
+	 * add diacritics (Tashkeel) to Arabic text.
+	 * This call Mishkal (which needs to be copied to the project's directory.
+	 * @param text
+	 * @return diacriticised text as string
+	 */
 	public  String addTashkeel (String text) throws InterruptedException, IOException {
-			int fileCounter = 0;
-		    String tmpFiles ="tempFiles";
-
-		    new File(tmpFiles).mkdirs();
-		    
-		    String inputFile=tmpFiles+File.separator+(fileCounter++)+".txt";
-			writer = new PrintWriter(inputFile, "UTF-8");
-			writer.println(text);
-			writer.flush();
-			
-			String outputFile=tmpFiles+File.separator+(fileCounter++)+".txt";
-			Runtime.getRuntime().exec ("cmd /c mishkal-console -f "+inputFile+" > "+outputFile);
-			
-			@SuppressWarnings("resource")
-			String content = new Scanner(new File(outputFile)).useDelimiter("\\Z").next();
-			if(content.indexOf("cache checked word")>-1)
-			content =  content.substring(0, content.indexOf("cache checked word")).trim();
-			//force encode output to be UTF-8 format  
-			String tashkeelUTF8 = new String(content.getBytes("UTF-8"));
-			
-	return tashkeelUTF8;
-	}
 		
+	    String tmpFiles ="tempFiles";
+		
+	    new File(tmpFiles).mkdirs();
+	    
+	    File inputFile=File.createTempFile("tmpIn", ".txt");
+		String inputF = tmpFiles+File.separator+inputFile.getName();
+
+		writer = new PrintWriter(tmpFiles+File.separator+inputFile.getName(), "UTF-8");
+		writer.println(text);
+		writer.flush();
+		
+		File outputFile=File.createTempFile("tmpOut", ".txt");
+		String outputF = tmpFiles+File.separator+outputFile.getName();
+		Runtime.getRuntime().exec ("cmd /c mishkal-console -f "+inputF+" > "+outputF);
+
+		File outputFILE = new File(outputF);
+		 while(!outputFILE.renameTo(outputFILE)) {
+		        // Cannot read from file, windows still working on it.
+		        Thread.sleep(10);
+		    }
+		 
+		 String content = FileUtils.readFileToString(new File(outputF));
+		if(content.indexOf("cache checked word")>-1)
+		content =  content.substring(0, content.indexOf("cache checked word")).trim();
+		//force encode output to be UTF-8 format  
+		String tashkeelUTF8 = new String(content.getBytes("UTF-8"));
+
+		new File(outputF).deleteOnExit();
+		new File(inputF).deleteOnExit();
+		inputFile.deleteOnExit();
+		outputFile.deleteOnExit();
+		
+return tashkeelUTF8;
+	}
+	
+
 	//count number of sentences using Stanford tokenizer (Sentence Splitter).
+	/**
+	 * count number of sentences a) using simpler sentence splitter or b) using Stanford tokenizer (Sentence Splitter) you need to uncomment the code below and include the import statements.
+	 * a) might not work if all your text is on one line, I recommend you use Stanford sentence splitter instead or your own delimiters. 
+	 * @param text
+	 * @return diacriticised text as string
+	 */
 	 public int countSentences(String text){
 
 /*	      Properties props = new Properties();
