@@ -1,0 +1,5 @@
+ ذُهِبَ هِنْدُ وَأَحْمَدُ الى الْمَدْرَسَةَ. هِنْدُ تُحِبُّ الرَّسْمَ وَالْمُطَالَعَةَ, اِحْمَدْ يُحِبَّ حِصَصُ التَّارِيخِ
+cache checked word 14
+cache freqwords noun 9
+cache freqwords verb 10
+cache freqwords stopword 0
