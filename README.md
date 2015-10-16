@@ -22,3 +22,10 @@ When using Eclipse (or other editors) make sure you set the encoding to UTF-8 fo
 <li>The results box should show drelhaj/OsmanReadability</li>
 <li>Select repository and click Finish</li>
 </ul>
+
+<h3>Download OSMAN UN Corpus</h3>
+You can click on Download Zip button on the right hand side.
+Or you can navigate to Osman_UN_Corpus navigate to each folder and download the dataset zip files one by one. To download any of the zip files click on the zip file then click on "View Raw".
+
+<h3>Contact</h3>
+Have a question? Get in touch with us on: dr.melhaj@gmail.com
