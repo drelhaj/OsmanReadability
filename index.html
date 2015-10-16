@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>OSMAN Readability by drelhaj</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>OSMAN Readability</h1>
+        <p>Open Source tool for Arabic text readability</p>
+        <p class="view"><a href="https://github.com/drelhaj/OsmanReadability">View the Project on GitHub <small>drelhaj/OsmanReadability</small></a></p>
+        <ul>
+          <li><a href="https://github.com/drelhaj/OsmanReadability/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/drelhaj/OsmanReadability/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/drelhaj/OsmanReadability">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>
+<a id="osman-readability-metric" class="anchor" href="#osman-readability-metric" aria-hidden="true"><span class="octicon octicon-link"></span></a>OSMAN Readability Metric.</h3>
+
+<p>OSMAN (Open Source Metric for Measuring Arabic Narratives) - a novel open source Arabic readability metric and tool. It allows researchers to calculate readability for Arabic text using our new OSMAN.</p>
+
+<h3>
+<a id="osman-arabic-readability-formula" class="anchor" href="#osman-arabic-readability-formula" aria-hidden="true"><span class="octicon octicon-link"></span></a>OSMAN Arabic Readability Formula</h3>
+
+<p>The formula calculates readability for Arabic text with and without diacritics (Tashkeel). The tool presents a novel way towards counting syllables in Arabic which has been a difficult task for many years. The tools provides accurate results for text with diacritics. As we are aware that the majority of Arabic text available online these days is written with the absence of diacritics, we provide the user with an option to use <strong>Mishkal</strong> <a href="https://sourceforge.net/projects/mishkal/">https://sourceforge.net/projects/mishkal/</a>, which is a free online tool that adds diacritics back in to Arabic text, the tools reaches an accuracy over 85%.</p>
+
+<h3>
+<a id="arabic-syllables" class="anchor" href="#arabic-syllables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Arabic Syllables!</h3>
+
+<p>In our tool we count the two main types of Arabic syllables, short and long in addition to stressed syllables.
+Short syllables are simply a single consonant followed by a single short vowel (e.g. “كَتَبَ” [ka-ta-ba], “he
+wrote”). A long syllable usually is a consonant plus a long vowel (e.g. “كِتَاب” [ki-taab], “book”) the example shows a short syllable followed by a long one. Stress syllables are those considered as double letters, indicating a double consonants with no vowel in between (e.g. “شَدَّدَ”, [shaDDaDa], “he stressed”).</p>
+
+<h3>
+<a id="dataset" class="anchor" href="#dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset</h3>
+
+<p>we used 73,000 parallel English and Arabic paragraphs from the United Nations (UN) corpus <a href="www.uncorpora.org">http://www.uncorpora.org/</a> – a collection of resolutions of the General Assembly from Volume I of GA regular sessions 55-62 (Rafalovitch and Dale, 2009). The Arabic text by the UN has been written with the absence of diacritics. We used Mishkal to add diacritics to the Arabic text. Each language has around 3 million words from more than 2,000 documents with each document containing 36 paragraphs on average.</p>
+
+<p>Ref:
+A. Rafalovitch and R. Dale. 2009. United Nations General Assembly Resolutions: A Six-Language Parallel Corpus. In Proceedings of the MT Summit XII, pages 292–299. International Association of Machine Translation, August.</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/drelhaj">drelhaj</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
