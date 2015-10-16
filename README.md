@@ -1,4 +1,4 @@
-# OsmanReadability
+# Osman Readability Metric
 
 <h3>About</h3>
 Open Source tool for Arabic text readability
