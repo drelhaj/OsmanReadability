@@ -6,6 +6,11 @@ Open Source tool for Arabic text readability
 The tool is a Java open source to calculate readability for Arabic text with and without diacritics (Tashkeel). 
 The tool works better with diacritics added in (we provide a method to allow you add diacritics to plain Arabic text).
 
+The tool was published as a full paper at LREC 2016 conference in Slovenia.
+[El-Haj, M., and Rayson. "OSMAN - A Novel Arabic Readability Metric". 10th edition of the Language Resources and Evaluation Conference (LREC'16). May 2016. Portoroz, Slovenia.]
+http://www.lancaster.ac.uk/staff/elhaj/docs/elhajlrec2016Arabic.pdf
+
+
 <h3>How to run</h3>
 Class TestOSMAN shows how to measure OSMAN readability for text with and without diacritics.
 Method calculateOsman(String text) can be called using an instance from the class <b>OsmanReadability</b>.
