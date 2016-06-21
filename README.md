@@ -12,7 +12,7 @@ http://www.lancaster.ac.uk/staff/elhaj/docs/elhajlrec2016Arabic.pdf
 
 
 <h3>How to run</h3>
-You can download the latest release "runnable.zip" and unzip the file contents into a directory then double click Osman.jar to run the system, which will open a in a Graphical User Interface (GUI) window, so no programming needed.
+You can download the latest release "runnable.zip" and unzip the file contents into a directory then double click Osman.jar to run the system, which will open a in a Graphical User Interface (GUI) window, so no programming needed. Please note that on Linux (e.g. Ubuntu) you need to right click the jar file --> Properties --> Permissions --> "Allow executing file as program". 
 
 Otherwise, Class TestOSMAN shows how to measure OSMAN readability for text with and without diacritics.
 Method calculateOsman(String text) can be called using an instance from the class <b>OsmanReadability</b>.
