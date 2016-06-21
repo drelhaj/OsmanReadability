@@ -12,7 +12,9 @@ http://www.lancaster.ac.uk/staff/elhaj/docs/elhajlrec2016Arabic.pdf
 
 
 <h3>How to run</h3>
-Class TestOSMAN shows how to measure OSMAN readability for text with and without diacritics.
+You can download the latest releiese "runnable.zip" and unzip the file contents into a directory then double click Osman.jar to run the system, which will open a in a Graphical User Interface (GUI) window, so no programming needed.
+
+Otherwise, Class TestOSMAN shows how to measure OSMAN readability for text with and without diacritics.
 Method calculateOsman(String text) can be called using an instance from the class <b>OsmanReadability</b>.
 users can also add and remove diacritics using <b>addTashkeel(String text)</b> and <b>removeTashkeel(String text)</b>.
 
@@ -29,7 +31,7 @@ When using Eclipse (or other editors) make sure you set the encoding to UTF-8 fo
 </ul>
 
 <h3>Download OSMAN UN Corpus</h3>
-You can click on Download Zip button on the right hand side.
+You can click on Download Zip button on the right hand side or download the latest releise "runnable.zip"
 Or you can navigate to Osman_UN_Corpus navigate to each folder and download the dataset zip files one by one. To download any of the zip files click on the zip file then click on "View Raw".
 
 <h3>Contact</h3>
