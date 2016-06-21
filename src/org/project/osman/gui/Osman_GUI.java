@@ -136,8 +136,8 @@ public class Osman_GUI extends JFrame implements ActionListener, ItemListener {
 				numSent.setText("\t Num of Sentences = " + osman.countSentences(jtAreaOutput.getText()));
 				numWords.setText("\t Num of Words = " + osman.countWords(jtAreaOutput.getText()));
 				numFaseeh.setText("\t Num of Faseeh = " + osman.countFaseeh(jtAreaOutput.getText()));
-				numSylbls.setText("\t Num of Syllabels = " + osman.countSyllables(jtAreaOutput.getText()));
-				// jtAreaOutput.setText(tashkeelText);
+				numSylbls.setText("\t Num of Syllabels = " + osman.countSyllables(tashkeelText));
+				jtAreaOutput.setText(tashkeelText);
 
 			}
 		});
@@ -258,7 +258,7 @@ public class Osman_GUI extends JFrame implements ActionListener, ItemListener {
 		Osman_GUI app = new Osman_GUI();
 		frame.setJMenuBar(app.createJMenuBar());
 		frame.setContentPane(app.createContentPane());
-		frame.setSize(550, 350);
+		frame.setSize(750, 400);
 		frame.setVisible(true);
 	}
 
