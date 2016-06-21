@@ -19,7 +19,7 @@ public class TestOSMAN {
 		osman.loadData();
 		
 		//text in unicode in case your editor does not support Arabic text
-		//text in Arabic: "ĞåÈ åäÏ æÃÍãÏ Çáì ÇáãÏÑÓÉ. åäÏ ÊÍÈ ÇáÑÓã æÇáãØÇáÚÉ"  [set encoding UTF-8 to view this]
+		//text in Arabic: "ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"  [set encoding UTF-8 to view this]
 		//This is an example of an Easy to read Arabic text from a children book
 		String easyText = "\u0630\u0647\u0628 \u0647\u0646\u062f \u0648\u0623\u062d\u0645\u062f \u0627\u0644\u0649 \u0627\u0644\u0645\u062f\u0631\u0633\u0629\u002e \u0647\u0646\u062f \u062a\u062d\u0628 \u0627\u0644\u0631\u0633\u0645 \u0648\u0627\u0644\u0645\u0637\u0627\u0644\u0639\u0629";
 		easyText = osman.addTashkeel(easyText);
@@ -47,7 +47,7 @@ public class TestOSMAN {
 		
 		
 		//text in unicode in case your editor does not support Arabic text
-		//text in Arabic: "ÇáÓøáÇãõ Úóáóíßõãú æóÑóÍúãóÉõ Çááåö æóÈóÑóßóÇÊõåõ"  [set encoding UTF-8 to view this]
+		//text in Arabic: "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"  [set encoding UTF-8 to view this]
 		//This is just to show how the removeTashkeel function works
 		String textWithTashkeel  = "\u0627\u0644\u0633\u0651\u0644\u0627\u0645\u064f \u0639\u064e\u0644\u064e\u064a\u0643\u064f\u0645\u0652 \u0648\u064e\u0631\u064e\u062d\u0652\u0645\u064e\u0629\u064f \u0627\u0644\u0644\u0647\u0650 \u0648\u064e\u0628\u064e\u0631\u064e\u0643\u064e\u0627\u062a\u064f\u0647\u064f";
 		String textTashkeelRemoved = osman.removeTashkeel(textWithTashkeel);

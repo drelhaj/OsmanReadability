@@ -9,6 +9,11 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import edu.stanford.nlp.ling.HasWord;
+import java.util.Properties;
+import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.util.CoreMap;
 
 /**
  * Entry class of the OSMAN Readability package for computing Readability Metrics for Arabic text.
@@ -124,7 +129,7 @@ public class OsmanReadability {
 	 * 
 	 * @return the overall ratio of syllables per word computed from the text statistics.
 	 */
-	protected double syllablesPerWords(String text)
+	public double syllablesPerWords(String text)
 	{
 		return ((double) (countSyllables(text)) / countWords(text));
 	}
@@ -137,7 +142,7 @@ public class OsmanReadability {
 	 * 
 	 * @return the overall ratio of Faseeh chars per word computed from the text statistics.
 	 */
-	protected double faseehPerWords(String text)
+	public double faseehPerWords(String text)
 	{
 		return ((double) (countFaseeh(text))) / countWords(text);
 	}
@@ -150,7 +155,7 @@ public class OsmanReadability {
 	 * 
 	 * @return percentage of complex words computed from the text statistics.
 	 */
-	protected double percentComplexWords(String text)
+	public double percentComplexWords(String text)
 	{
 		return (((double) countComplexWords(text)) / countWords(text));
 	}
@@ -163,7 +168,7 @@ public class OsmanReadability {
 	 * 
 	 * @return percentage of long words computed from the text statistics.
 	 */
-	protected double percentLongWords(String text)
+	public double percentLongWords(String text)
 	{
 		return (((double) countLongWords(text)) / countWords(text));
 	}
@@ -192,7 +197,7 @@ public class OsmanReadability {
 	 * @param text
 	 * @return text without any diacritics
 	 */
-	protected String removeTashkeel(String text){
+	public String removeTashkeel(String text){
 		
 		String noTashkeel = text.replace("\u064E","")
 				.replace("\u064B","").replace("\u064F","")
@@ -209,7 +214,7 @@ public class OsmanReadability {
 	 * @param text
 	 * @return number of syllables as int
 	 */
-	protected int countSyllables(String text){
+	public int countSyllables(String text){
 	
 	//class Syllables counts long, short and stress syllables. Long and stress syllables are treated as doubles thus X 2.
 	Syllables syllables = Syllables.countAllSyllables(text);
@@ -227,7 +232,7 @@ public class OsmanReadability {
 	 * @param text
 	 * @return number of faseeh indicators as int
 	 */
-	protected int countFaseeh(String text){
+	public int countFaseeh(String text){
 		
 		int faseeh = 0;
 		//we don't need an accurate word segmentation here as non-word object does not contain syllables.
@@ -245,13 +250,13 @@ public class OsmanReadability {
 	
 			if(syllablesCount>4){
 			
-		int s8 = StringUtils.countMatches(words[i], "\u0626");//Æ hamza 3ala nabira
-		int s9 = StringUtils.countMatches(words[i], "\u0621");//Á hamza 3ala satr
-		int s10 = StringUtils.countMatches(words[i], "\u0624");//Ä hamza 3ala waw 
-		int s11 = StringUtils.countMatches(words[i], "\u0648\u0627 ");//æÇ waw wa alef
-		int s12 = StringUtils.countMatches(words[i], "\u0648\u0646 ");//æä waw wa noon (jam3 mothakar)
-		int s13 = StringUtils.countMatches(words[i], "\u0630");//Ð Thal (9th letter in Arabic alphabet)
-		int s14 = StringUtils.countMatches(words[i], "\u0638");//Ù  DHaA (17th letter in Arabic alphabet)
+		int s8 = StringUtils.countMatches(words[i], "\u0626");//ï¿½ hamza 3ala nabira
+		int s9 = StringUtils.countMatches(words[i], "\u0621");//ï¿½ hamza 3ala satr
+		int s10 = StringUtils.countMatches(words[i], "\u0624");//ï¿½ hamza 3ala waw 
+		int s11 = StringUtils.countMatches(words[i], "\u0648\u0627 ");//ï¿½ï¿½ waw wa alef
+		int s12 = StringUtils.countMatches(words[i], "\u0648\u0646 ");//ï¿½ï¿½ waw wa noon (jam3 mothakar)
+		int s13 = StringUtils.countMatches(words[i], "\u0630");//ï¿½ Thal (9th letter in Arabic alphabet)
+		int s14 = StringUtils.countMatches(words[i], "\u0638");//ï¿½  DHaA (17th letter in Arabic alphabet)
 		//if a complex word contains at least one faseeh indicator
 		if((s8+s9+s10+s11+s12+s13+s14)>=1)
 				faseeh++;
@@ -269,7 +274,7 @@ public class OsmanReadability {
 	 * @param text
 	 * @return number of characters as int
 	 */
-	protected int countChars(String text){	
+	public int countChars(String text){	
 		text = removeTashkeel(text);
 		return text.replaceAll("\\d"," ").replace(" ","").trim().length();
 			
@@ -281,7 +286,7 @@ public class OsmanReadability {
 	 * @param text
 	 * @return number of words as int
 	 */
-	protected int countWords(String text){	
+	public int countWords(String text){	
 	List<HasWord> arabicList;
 		arabicList = ArabicWordSegmenters.runArabicSegmenter(text);
 		int wordCount = arabicList.size();
@@ -295,7 +300,7 @@ public class OsmanReadability {
 	 * @param text
 	 * @return number of complex words as int
 	 */
-	protected int countComplexWords(String text){
+	public int countComplexWords(String text){
 	int complexWords = 0;
 	String[] words = text.split(" ");//we don't need an accurate word segmentation here as non-word object does not contain syllables.
 	
@@ -322,7 +327,7 @@ public class OsmanReadability {
 	 * @param text
 	 * @return number of long words as int
 	 */
-	protected int countLongWords(String text){	
+	public int countLongWords(String text){	
 	List<HasWord> arabicList = null;
 	text = removeTashkeel(text);
 	arabicList = ArabicWordSegmenters.runArabicSegmenter(text);
@@ -390,7 +395,7 @@ return tashkeelUTF8;
 	 */
 	 public int countSentences(String text){
 
-/*	      Properties props = new Properties();
+      Properties props = new Properties();
 	      props.put("annotators", "tokenize, ssplit");
 	      StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
@@ -406,17 +411,13 @@ return tashkeelUTF8;
 	      // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
 	      List<CoreMap> sentences = document.get(SentencesAnnotation.class);  
    	      String lines[] = new String[sentences.size()];
-	      */    
+	          
 
-		 //This is a sentence splitter that work with paragraph and sentence breaks. You can otherwise use
-		 //stanford's sentnece splitter by uncommenting the code above. Note you'll need the following import statements:
-		 //import java.util.Properties;
-		 //import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
-		 //import edu.stanford.nlp.pipeline.Annotation;
-		 //import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-		 //import edu.stanford.nlp.util.CoreMap;
+		// This is a sentence splitter that work with paragraph and sentence breaks. You can otherwise use
+		// stanford's sentnece splitter by uncommenting the code above. Note you'll need the following import statements:
+
 	    		 
-		 String lines[] = text.split("\\r?\\n");
+		// String lines[] = text.split(".");
 	      			
 		return lines.length;
 
