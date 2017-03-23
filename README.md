@@ -10,6 +10,9 @@ The tool was published as a full paper at LREC 2016 conference in Slovenia.
 [El-Haj, M., and Rayson. "OSMAN - A Novel Arabic Readability Metric". 10th edition of the Language Resources and Evaluation Conference (LREC'16). May 2016. Portoroz, Slovenia.]
 http://www.lancaster.ac.uk/staff/elhaj/docs/elhajlrec2016Arabic.pdf
 
+<h3>New!!</h3>
+The code now uses Farasa https://github.com/qcri/FarasaSegmenter to add in diacritics, which works on both Windows and Linux. I've updated the code to use a RegEx word and sentence splitter instead of Stanford as many users complained having problems running Stanford Segmenter.
+The system is now available as a GUI runnable file.
 
 <h3>How to run</h3>
 You can download the latest release "runnable.zip" and unzip the file contents into a directory then double click Osman.jar to run the system, which will open a in a Graphical User Interface (GUI) window, so no programming needed. 
