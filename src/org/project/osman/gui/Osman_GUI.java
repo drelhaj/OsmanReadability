@@ -104,6 +104,12 @@ public class Osman_GUI extends JFrame implements ActionListener, ItemListener {
 				} catch (InterruptedException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				double score = 0.0;
 				// String[] metrics = { "Select Readability", "OSMAN",

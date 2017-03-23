@@ -1,19 +1,22 @@
 package org.project.osman.process;
 
-import java.io.File;
-import java.io.IOException;
+
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import org.apache.commons.lang.StringUtils;
+import com.qcri.farasa.diacritize.RunFarasa;
+/*
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import edu.stanford.nlp.ling.HasWord;
 import java.util.Properties;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.util.CoreMap;
+import edu.stanford.nlp.util.CoreMap;*/
 
 /**
  * Entry class of the OSMAN Readability package for computing Readability Metrics for Arabic text.
@@ -33,7 +36,8 @@ public class OsmanReadability {
 	@SuppressWarnings("unused")
 	public void loadData(){
 
-		ArabicWordSegmenters.loadLangDictionaries();
+		// uncomment if you want to use Stanford Segmenter instead of regex, the latter is faster. 
+		//ArabicWordSegmenters.loadLangDictionaries();
 		
 		 // this is your print stream, store the reference 
 		// (this will hide system.err printed by Stanford Tekonizer
@@ -57,7 +61,11 @@ public class OsmanReadability {
 	 * @return OSMAN Score in double
 	 */
 	public double calculateOsman(String text) {
-	
+/*	System.out.println("words/sent "+wordsPerSentence(text));
+	System.out.println("complx Perc "+ percentComplexWords(text));
+	System.out.println("syll "+ syllablesPerWords(text));
+	System.out.println("faseeh "+faseehPerWords(text));
+	System.out.println("long "+ percentLongWords(text));*/
 	return 200.791 - (1.015 * wordsPerSentence(text)) - (24.18143403 * (percentComplexWords(text) +syllablesPerWords(text)+faseehPerWords(text) +percentLongWords(text)));
 	
 	}	
@@ -236,7 +244,7 @@ public class OsmanReadability {
 		
 		int faseeh = 0;
 		//we don't need an accurate word segmentation here as non-word object does not contain syllables.
-		String[] words = text.split(" ");
+		String[] words = text.trim().split(" ");
 		
 		for(int i=0;i<words.length;i++){
 			
@@ -287,9 +295,9 @@ public class OsmanReadability {
 	 * @return number of words as int
 	 */
 	public int countWords(String text){	
-	List<HasWord> arabicList;
+	String[] arabicList;
 		arabicList = ArabicWordSegmenters.runArabicSegmenter(text);
-		int wordCount = arabicList.size();
+		int wordCount = arabicList.length;
 	
 		return wordCount;
 		
@@ -328,11 +336,11 @@ public class OsmanReadability {
 	 * @return number of long words as int
 	 */
 	public int countLongWords(String text){	
-	List<HasWord> arabicList = null;
+	String[] arabicList = null;
 	text = removeTashkeel(text);
 	arabicList = ArabicWordSegmenters.runArabicSegmenter(text);
 	int longWords = 0;
-	for (HasWord element : arabicList) {
+	for (String element : arabicList) {
 		if(element.toString().length()>5){
 			++longWords;
 		}
@@ -347,40 +355,12 @@ public class OsmanReadability {
 	 * This call Mishkal (which needs to be copied to the project's directory.
 	 * @param text
 	 * @return diacriticised text as string
+	 * @throws Exception 
+	 * @throws ClassNotFoundException 
 	 */
-	public  String addTashkeel (String text) throws InterruptedException, IOException {
+	public  String addTashkeel (String text) throws ClassNotFoundException, Exception {
 		
-	    String tmpFiles ="tempFiles";
-		
-	    new File(tmpFiles).mkdirs();
-	    
-	    File inputFile=File.createTempFile("tmpIn", ".txt");
-		String inputF = tmpFiles+File.separator+inputFile.getName();
-
-		writer = new PrintWriter(tmpFiles+File.separator+inputFile.getName(), "UTF-8");
-		writer.println(text);
-		writer.flush();
-		
-		File outputFile=File.createTempFile("tmpOut", ".txt");
-		String outputF = tmpFiles+File.separator+outputFile.getName();
-		Runtime.getRuntime().exec ("cmd /c mishkal-console -f "+inputF+" > "+outputF);
-
-		File outputFILE = new File(outputF);
-		 while(!outputFILE.renameTo(outputFILE)) {
-		        // Cannot read from file, windows still working on it.
-		        Thread.sleep(10);
-		    }
-		 
-		 String content = FileUtils.readFileToString(new File(outputF));
-		if(content.indexOf("cache checked word")>-1)
-		content =  content.substring(0, content.indexOf("cache checked word")).trim();
-		//force encode output to be UTF-8 format  
-		String tashkeelUTF8 = new String(content.getBytes("UTF-8"));
-
-		new File(outputF).deleteOnExit();
-		new File(inputF).deleteOnExit();
-		inputFile.deleteOnExit();
-		outputFile.deleteOnExit();
+		String tashkeelUTF8 = RunFarasa.runFarasa(text);
 		
 return tashkeelUTF8;
 	}
@@ -395,30 +375,29 @@ return tashkeelUTF8;
 	 */
 	 public int countSentences(String text){
 
-      Properties props = new Properties();
-	      props.put("annotators", "tokenize, ssplit");
-	      StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+   //   Properties props = new Properties();
+	 //     props.put("annotators", "tokenize, ssplit");
+	    //  StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
 	      // read some text in the text variable
 
 	      // create an empty Annotation just with the given text
-	      Annotation document = new Annotation(text);
+	   //   Annotation document = new Annotation(text);
 
 	      // run all Annotators on this text
-	      pipeline.annotate(document);
+	    //  pipeline.annotate(document);
 
 	      // these are all the sentences in this document
 	      // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
-	      List<CoreMap> sentences = document.get(SentencesAnnotation.class);  
-   	      String lines[] = new String[sentences.size()];
+	    //  List<CoreMap> sentences = document.get(SentencesAnnotation.class);  
+   	    //  String lines[] = new String[sentences.size()];
 	          
 
 		// This is a sentence splitter that work with paragraph and sentence breaks. You can otherwise use
 		// stanford's sentnece splitter by uncommenting the code above. Note you'll need the following import statements:
 
 	    		 
-		// String lines[] = text.split(".");
-	      			
+		String lines[] = text.split("\n|((?<!\\d)\\.(?!\\d))");
 		return lines.length;
 
 }

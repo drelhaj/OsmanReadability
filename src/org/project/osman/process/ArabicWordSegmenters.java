@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Properties;
 
 import edu.stanford.nlp.international.arabic.process.ArabicSegmenter;
-import edu.stanford.nlp.ling.HasWord;
+//import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.Word;
 import edu.stanford.nlp.process.PTBTokenizer;
 
@@ -57,19 +57,20 @@ public static ArrayList<String> runEnFrEsRuSegmenter(String text){
  * @param props
  * @return List<HasWord> of tokenized words
  */
-public static List<HasWord> runArabicSegmenter(String text){
-	text = cleanText(text);
-	List<HasWord> segmentAR = segmenterAR.segment(text);
+public static String[] runArabicSegmenter(String text){
+		text = cleanText(text);
+	String[] words = text.split("\\s+");
+/*	List<HasWord> segmentAR = segmenterAR.segment(text);
 	segmentAR.removeAll(Arrays.asList("", null));
-	segmentAR = removeOneCharItems(segmentAR);
-	return segmentAR;
+	segmentAR = removeOneCharItems(segmentAR);*/
+	return words;
 }
 
 
 
 
 public static String cleanText(String text){
-	text = text.replaceAll("\\d","").replaceAll("\\d","").replaceAll("£$","").replaceAll("\\p{Punct}+", "").replaceAll("¡,º¿`","").trim();
+	text = text.replaceAll("\\d","").replaceAll("\\d","").replaceAll("ï¿½$","").replaceAll("\\p{Punct}+", "").replaceAll("ï¿½,ï¿½ï¿½`","").trim().replaceAll(" +", " ");
 	
 	return text;
 }
