@@ -100,7 +100,8 @@ public class Osman_GUI extends JFrame implements ActionListener, ItemListener {
 
 				String tashkeelText = "";
 				try {
-					tashkeelText = osman.addTashkeel(jtAreaOutput.getText());
+					tashkeelText = osman.addTashkeel(new String(jtAreaOutput.getText().getBytes("UTF-8")));
+
 				} catch (InterruptedException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
