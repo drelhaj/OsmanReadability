@@ -1,7 +1,7 @@
 # Osman Readability Metric
 
 <h3>About</h3>
-Open Source tool for Arabic text readability
+Open Source tool for Arabic text readability (updated on 17/April/2020)
 
 The tool is a Java open source to calculate readability for Arabic text with and without diacritics (Tashkeel). 
 The tool works better with diacritics added in (we provide a method to allow you add diacritics to plain Arabic text).
@@ -10,14 +10,15 @@ The tool was published as a full paper at LREC 2016 conference in Slovenia.
 [El-Haj, M., and Rayson. "OSMAN - A Novel Arabic Readability Metric". 10th edition of the Language Resources and Evaluation Conference (LREC'16). May 2016. Portoroz, Slovenia.]
 http://www.lancaster.ac.uk/staff/elhaj/docs/elhajlrec2016Arabic.pdf
 
-<h3>New!!</h3>
-The code now uses Farasa https://github.com/qcri/FarasaSegmenter to add in diacritics, which works on both Windows and Linux. I've updated the code to use a RegEx word and sentence splitter instead of Stanford as many users complained having problems running Stanford Segmenter.
-The system is now available as a GUI runnable file.
+<h3>New 2020</h3>
+I have updated the code on 16/April/2020 and now it runs faster and uses less disk space. 
+The code now uses a modified version of Farasa (Original Farasa can be found on https://github.com/qcri/FarasaSegmenter). The modified version adds in diacritics much faster and runs on both windows and linux without any manual intervention.. I've updated the code to use a RegEx word and sentence splitter instead of Stanford as many users complained having problems running Stanford Segmenter (you can edit the code to use your own NLP tools if you like).
+
 
 <h3>How to run</h3>
-You can download the latest release "runnable.zip" and unzip the file contents into a directory then double click Osman.jar to run the system, which will open a in a Graphical User Interface (GUI) window, so no programming needed. 
+To run the Runnable Jar version of the tool download the latest release "osman_release_2020.zip" and unzip the file contents into a directory at your machine. To run the jar file on your preferred command line (CMD) application type: "java -jar osman2020.jar" without the double quotes. This will open in a Graphical User Interface (GUI) window, so no programming needed. 
 
-Otherwise, Class TestOSMAN shows how to measure OSMAN readability for text with and without diacritics.
+If you know how to use Java you can otherwise clone the source code. Class TestOSMAN shows how to measure OSMAN readability for text with and without diacritics.
 Method calculateOsman(String text) can be called using an instance from the class <b>OsmanReadability</b>.
 users can also add and remove diacritics using <b>addTashkeel(String text)</b> and <b>removeTashkeel(String text)</b>.
 

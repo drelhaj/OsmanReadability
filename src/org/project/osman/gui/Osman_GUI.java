@@ -359,7 +359,7 @@ public class Osman_GUI extends JFrame implements ActionListener, ItemListener {
 		return classString.substring(dotIndex + 1); // Returns only Class name
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException, ClassNotFoundException, IOException, InterruptedException {
 		osman.loadData();
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {

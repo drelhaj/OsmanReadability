@@ -1,11 +1,12 @@
 package org.project.osman.process;
-
-
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import org.apache.commons.lang.StringUtils;
-import com.qcri.farasa.diacritize.RunFarasa;
+import com.qcri.farasa.diacritize.FarasaDiacritizer;
+
 /*
 import java.io.File;
 import java.io.IOException;
@@ -32,10 +33,16 @@ public class OsmanReadability {
   	/**
   	 * loadData loads the Arabic dictionaries needed by Stanford tekonizer
   	 * and sentence splitter.
+  	 * @throws InterruptedException 
+  	 * @throws IOException 
+  	 * @throws ClassNotFoundException 
+  	 * @throws FileNotFoundException 
   	 */
 	@SuppressWarnings("unused")
-	public void loadData(){
-
+	public void loadData() throws FileNotFoundException, ClassNotFoundException, IOException, InterruptedException{
+		//loading Farasa Dataset
+		FarasaDiacritizer.loadFarasa();
+		System.out.println("Loading Farasa's Diacritizer Dataset...");
 		// uncomment if you want to use Stanford Segmenter instead of regex, the latter is faster. 
 		//ArabicWordSegmenters.loadLangDictionaries();
 		
@@ -256,15 +263,15 @@ public class OsmanReadability {
 			int syllablesCount = longSyll * 2 + shortSyll + stressSyll * 2;
 
 	
-			if(syllablesCount>4){
+			if(syllablesCount>=4){
 			
-		int s8 = StringUtils.countMatches(words[i], "\u0626");//� hamza 3ala nabira
-		int s9 = StringUtils.countMatches(words[i], "\u0621");//� hamza 3ala satr
-		int s10 = StringUtils.countMatches(words[i], "\u0624");//� hamza 3ala waw 
-		int s11 = StringUtils.countMatches(words[i], "\u0648\u0627 ");//�� waw wa alef
-		int s12 = StringUtils.countMatches(words[i], "\u0648\u0646 ");//�� waw wa noon (jam3 mothakar)
-		int s13 = StringUtils.countMatches(words[i], "\u0630");//� Thal (9th letter in Arabic alphabet)
-		int s14 = StringUtils.countMatches(words[i], "\u0638");//�  DHaA (17th letter in Arabic alphabet)
+		int s8 = StringUtils.countMatches(words[i], "\u0626");// hamza 3ala nabira
+		int s9 = StringUtils.countMatches(words[i], "\u0621");// hamza 3ala satr
+		int s10 = StringUtils.countMatches(words[i], "\u0624");//hamza 3ala waw 
+		int s11 = StringUtils.countMatches(words[i], "\u0648\u0627 ");// waw wa alef
+		int s12 = StringUtils.countMatches(words[i], "\u0648\u0646 ");// waw wa noon (jam3 mothakar)
+		int s13 = StringUtils.countMatches(words[i], "\u0630");// Thal (9th letter in Arabic alphabet)
+		int s14 = StringUtils.countMatches(words[i], "\u0638");//  DHaA (17th letter in Arabic alphabet)
 		//if a complex word contains at least one faseeh indicator
 		if((s8+s9+s10+s11+s12+s13+s14)>=1)
 				faseeh++;
@@ -321,7 +328,7 @@ public class OsmanReadability {
 		int ss6 = StringUtils.countMatches(words[i], "\u064D");//tanween kasr
 		int ss7 = StringUtils.countMatches(words[i], "\u0651");//shaddah (this is doubled as it's a double sound)
 		
-		if(ss1+ss2+ss3+ss4+ss5+ss6+ss7 > 4){
+		if(ss1+ss2+ss3+ss4+ss5+ss6+ss7 >= 4){
 			complexWords++;
 		}
 		
@@ -341,7 +348,7 @@ public class OsmanReadability {
 	arabicList = ArabicWordSegmenters.runArabicSegmenter(text);
 	int longWords = 0;
 	for (String element : arabicList) {
-		if(element.toString().length()>5){
+		if(element.toString().length()>=5){
 			++longWords;
 		}
 	}
@@ -359,8 +366,10 @@ public class OsmanReadability {
 	 * @throws ClassNotFoundException 
 	 */
 	public  String addTashkeel (String text) throws ClassNotFoundException, Exception {
+		//System.out.println("Text: "+text);
 		
-		String tashkeelUTF8 = RunFarasa.runFarasa(text);
+		String tashkeelUTF8 = FarasaDiacritizer.diacritiseText(text); 
+		
 		
 return tashkeelUTF8;
 	}
