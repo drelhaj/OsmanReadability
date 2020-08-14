@@ -16,7 +16,11 @@ The code now uses a modified version of Farasa (Original Farasa can be found on 
 
 
 <h3>How to run</h3>
-To run the Runnable Jar version of the tool download the latest release "osman_release_2020.zip" and unzip the file contents into a directory at your machine. To run the jar file on your preferred command line (CMD) application type: "java -jar osman2020.jar" without the double quotes. This will open in a Graphical User Interface (GUI) window, so no programming needed. 
+To run the Runnable Jar version of the tool download the latest release "osman_release_2020.zip" and unzip the file contents into a directory at your machine. To run the jar file on your preferred command line (CMD) application type: "java -jar osman2020.jar" without the double quotes. This will open in a Graphical User Interface (GUI) window, so no programming needed. If your Windows machine/java is not displaying Arabic, the tool will not run correclty. You can fix that by running the following:
+1-	Change the locale to Arabic as in the video https://www.youtube.com/watch?v=XkczYaBlbNY (I know it’s not the best video :)){optional but helps sometimes}.
+2-	Run the following command “set JAVA_TOOL_OPTIONS =-Dfile.encoding=UTF-8” in the CMD window.
+3-	Then run the tool in UTF8 format: “java -Dfile.encoding=UTF-8 -jar osman2020.jar”
+
 
 If you know how to use Java you can otherwise clone the source code. Class TestOSMAN shows how to measure OSMAN readability for text with and without diacritics.
 Method calculateOsman(String text) can be called using an instance from the class <b>OsmanReadability</b>.
