@@ -5,9 +5,5 @@
 	<classpathentry kind="lib" path="E:/git/OsmanReadabilityGitHub/jars/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="E:/git/OsmanReadabilityGitHub/jars/commons-lang-2.0.jar"/>
 	<classpathentry kind="lib" path="E:/git/OsmanReadabilityGitHub/jars/stanford-segmenter-3.4.1.jar"/>
-	<classpathentry kind="lib" path="E:/git/OsmanReadabilityGitHub/jars/FarasaSegmenterJar.jar"/>
-	<classpathentry kind="lib" path="E:/git/OsmanReadabilityGitHub/jars/FarasaPOSJar.jar"/>
-	<classpathentry kind="lib" path="E:/git/OsmanReadabilityGitHub/jars/trove-3.0.3.jar"/>
-	<classpathentry kind="lib" path="E:/git/OsmanReadabilityGitHub/jars/weka.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

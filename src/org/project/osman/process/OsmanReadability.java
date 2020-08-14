@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import org.apache.commons.lang.StringUtils;
-import com.qcri.farasa.diacritize.FarasaDiacritizer;
 
 /*
 import java.io.File;
@@ -40,9 +39,7 @@ public class OsmanReadability {
   	 */
 	@SuppressWarnings("unused")
 	public void loadData() throws FileNotFoundException, ClassNotFoundException, IOException, InterruptedException{
-		//loading Farasa Dataset
-		FarasaDiacritizer.loadFarasa();
-		System.out.println("Loading Farasa's Diacritizer Dataset...");
+
 		// uncomment if you want to use Stanford Segmenter instead of regex, the latter is faster. 
 		//ArabicWordSegmenters.loadLangDictionaries();
 		
@@ -248,7 +245,6 @@ public class OsmanReadability {
 	 * @return number of faseeh indicators as int
 	 */
 	public int countFaseeh(String text){
-		
 		int faseeh = 0;
 		//we don't need an accurate word segmentation here as non-word object does not contain syllables.
 		String[] words = text.trim().split(" ");
@@ -357,22 +353,26 @@ public class OsmanReadability {
 		
 	
 	
+	
 	/**
-	 * add diacritics (Tashkeel) to Arabic text.
+	 * we've decided to remove this function due to the restrictions and copyright issues by the Arabic diacritisers available online.
+	 * Osman is a free to use tool to help Arabic researchers and we wish that all researchers do the same with their tools.
+	 * * add diacritics (Tashkeel) to Arabic text.
 	 * This call Mishkal (which needs to be copied to the project's directory.
 	 * @param text
 	 * @return diacriticised text as string
 	 * @throws Exception 
 	 * @throws ClassNotFoundException 
+
 	 */
-	public  String addTashkeel (String text) throws ClassNotFoundException, Exception {
+/*	public  String addTashkeel (String text) throws ClassNotFoundException, Exception {
 		//System.out.println("Text: "+text);
 		
-		String tashkeelUTF8 = FarasaDiacritizer.diacritiseText(text); 
+		String tashkeelUTF8 = text; 
 		
 		
 return tashkeelUTF8;
-	}
+	}*/
 	
 
 	//count number of sentences using Stanford tokenizer (Sentence Splitter).

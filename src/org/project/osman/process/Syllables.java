@@ -68,6 +68,11 @@ countStress = 	StringUtils.countMatches(word, "\u064B") +
 				StringUtils.countMatches(word, "\u064D") + 
 				StringUtils.countMatches(word, "\u0651");
 
+if(countShort == 0){
+	word = word.replace("\u0627","").replace("\u0649", "").replace("?", "").replace(".", "").replace("!", "").replace(",", "").replace(" ", "");
+	int afterWordLength = word.length();
+	countShort = afterWordLength-2;
+}
 		
 		return new Syllables(countShort, countLong, countStress);
 	}
