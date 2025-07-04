@@ -1,48 +1,104 @@
 # Osman Readability Metric
 
-<h3>About</h3>
-Open Source tool for Arabic text readability (updated on 14/August/2020)
+## 📢 Now Available in `textstat`
 
-The tool is a Java open source to calculate readability for Arabic text with and without diacritics (Tashkeel). 
-The tool works better with diacritics added in (we provide a method to calculate readability even with plain Arabic text, OSMAN will automatically estimate syllables and calculate readability even when no tashkeel is added in).
+The **Osman Readability Metric** for Arabic text is now integrated into the [`textstat`](https://pypi.org/project/textstat/) Python package.
 
-The tool was published as a full paper at LREC 2016 conference in Slovenia.
-[El-Haj, M., and Rayson. "OSMAN - A Novel Arabic Readability Metric". 10th edition of the Language Resources and Evaluation Conference (LREC'16). May 2016. Portoroz, Slovenia.]
-http://www.lancaster.ac.uk/staff/elhaj/docs/elhajlrec2016Arabic.pdf
+### 📦 Installation
 
-<h3>New 2020</h3>
-I have updated the code on 14/August/2020 and now it runs much faster and uses less disk space. 
-In this version we decided to <b>stop</b> using Farasa or any of its components due to restrictions and copyrights issues and therefore we decided to have our own in-house fully free and open source tool to help advance the research on Arabic NLP and Linguistics, and we are proud of this. 
+```bash
+pip install textstat
+```
 
-I've updated the code to use a RegEx word and sentence splitter instead of Stanford as many users complained having problems running Stanford Segmenter (you can edit the code to use your own NLP tools if you like).
+### ▶️ Example Usage
 
+```python
+import textstat
 
-<h3>How to run</h3>
-To run the Runnable Jar version of the tool download the latest release "Osman2020.jar". To run the jar file on your preferred command line (CMD) application type: "java -jar Osman2020.jar" without the double quotes. This will open in a Graphical User Interface (GUI) window, so no programming needed. If your Windows machine/java is not displaying Arabic, the tool will not run correctly. You can fix that by running the following:
-1-	Change the locale to Arabic as in the video https://www.youtube.com/watch?v=XkczYaBlbNY (I know it’s not the best video :)){optional but helps sometimes}.
-2-	Run the following command “set JAVA_TOOL_OPTIONS =-Dfile.encoding=UTF-8” in the CMD window.
-3-	Then run the tool in UTF8 format: “java -Dfile.encoding=UTF-8 -jar Osman2020.jar”
+text = "أدخل النص العربي هنا"
+score = textstat.osman(text)
+print(score)
+```
 
+This returns the Osman readability score for your Arabic input text.
 
-If you know how to use Java you can otherwise clone the source code. Class TestOSMAN shows how to measure OSMAN readability for text with and without diacritics.
-Method calculateOsman(String text) can be called using an instance from the class <b>OsmanReadability</b>.
-users can also remove diacritics using <b>removeTashkeel(String text)</b>.
+---
 
-The tool allows you to calculate other readability metrics such as ARI and LIX.
-When using Eclipse (or other editors) make sure you set the encoding to UTF-8 for the console output (Run configuration -> Common Tab --> Other Encoding)
+## 🧠 What is Osman?
 
-<h3>Import into Eclipse (step by step for beginners)</h3>
-<ul>
-<li>Install EGit: To install Egit and the Github Mylyn Connector from within Eclipse, navigate to the Help menu inside of Eclipse and select Install New Software. Enter the Juno update site url and search 'git' in the filter box. Once you've selected the EGit, JGit, and Mylyn GitHub items hit Next to finish the installation.</li>
-<li>In Eclipse go to File --> Import --> and select Git (Import Git repositories from GitHub) from the Select import source window.</li>
-<li>In the next window type "OsmanReadability" in the box and hit Search</li>
-<li>The results box should show drelhaj/OsmanReadability</li>
-<li>Select repository and click Finish</li>
-</ul>
+**Osman** is a readability metric specifically designed for Arabic, inspired by traditional metrics like Flesch and Fog, but enriched with a unique component called **Faseeh**—a linguistic factor that accounts for Arabic fluency and complexity.
 
-<h3>Download OSMAN UN Corpus</h3>
-You can click on Download Zip button on the right hand side or download the latest release "runnable.zip"
-Or you can navigate to Osman_UN_Corpus navigate to each folder and download the dataset zip files one by one. To download any of the zip files click on the zip file then click on "View Raw".
+Originally developed in Java, the Osman tool supports texts with or without diacritics (Tashkeel). When Tashkeel is absent, the tool estimates syllables automatically for readability scoring.
 
-<h3>Contact</h3>
-Have a question? Get in touch with us on: dr.melhaj@gmail.com
+📄 **Reference**:  
+El-Haj, M., and Rayson. "OSMAN - A Novel Arabic Readability Metric".  
+*LREC 2016, Portoroz, Slovenia.*  
+[Paper PDF](https://aclanthology.org/L16-1038.pdf) | [Lancaster Link](http://www.lancaster.ac.uk/staff/elhaj/docs/elhajlrec2016Arabic.pdf)
+
+---
+
+## 🚀 What's New in 2020?
+
+- Major code update on **14 August 2020**
+- No longer depends on **Farasa** due to licensing
+- Fully open-source and free
+- Switched to lightweight **RegEx-based** tokenisation (instead of Stanford)
+
+These changes reduce storage requirements and improve runtime speed.
+
+---
+
+## 🖥️ How to Run the Java Tool
+
+You can use the graphical tool via the pre-built JAR file.
+
+### ▶️ Run with GUI:
+
+1. Download `Osman2020.jar` from the releases.
+2. In your terminal or command prompt, run:
+
+```bash
+java -Dfile.encoding=UTF-8 -jar Osman2020.jar
+```
+
+💡 If you encounter Arabic display issues on Windows, you can:
+- Change your system locale to Arabic (see [YouTube Tutorial](https://www.youtube.com/watch?v=XkczYaBlbNY))
+- Run this first: `set JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8`
+
+---
+
+## 🔧 Java Source Code
+
+Developers can clone the repo and use the classes directly:
+
+- Use `OsmanReadability.calculateOsman(String text)`
+- Strip diacritics using `removeTashkeel(String text)`
+- Example usage: See `TestOSMAN.java`
+
+The tool also calculates other readability scores such as **ARI** and **LIX**.  
+📌 Ensure UTF-8 encoding is set for console output in your IDE.
+
+---
+
+## 🧰 Import into Eclipse (Beginner Friendly)
+
+1. Install EGit via **Help → Install New Software**
+2. Add the Juno update site, search for `git`, install EGit + Mylyn GitHub connector
+3. Go to **File → Import → Git → Projects from GitHub**
+4. Search `OsmanReadability` and select `drelhaj/OsmanReadability`
+5. Finish setup and explore the project
+
+---
+
+## 📚 OSMAN UN Corpus
+
+- Find data under the `Osman_UN_Corpus` directory
+- To download: click on a zip file → **View Raw** to start download
+- Or use the **Download ZIP** button on the GitHub repo
+
+---
+
+## 📬 Contact
+
+For questions or feedback, email:  
+**📧 dr.melhaj@gmail.com**
